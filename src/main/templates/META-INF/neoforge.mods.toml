@@ -16,6 +16,9 @@ versionRange = "${neo_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
+[[mixins]]
+config = "${mod_id}.mixins.json"
+
 [[dependencies."${mod_id}"]]
 modId = "minecraft"
 type = "required"

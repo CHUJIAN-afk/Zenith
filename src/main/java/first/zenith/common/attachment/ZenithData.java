@@ -35,7 +35,7 @@ public class ZenithData {
     }
 
     public void tick() {
-        if (owner.getMainHandItem().getItem() instanceof ZenithItem) {
+        if (owner.getUseItem().getItem() instanceof ZenithItem) {
             if (power > 3.33f) {
                 Playable.play(ZenithSoundRegister.Zenith, owner.level(), owner.position(), owner.getSoundSource());
                 Vec3 lookAngle = owner.getLookAngle();
@@ -110,15 +110,6 @@ public class ZenithData {
         } else {
             power = 0;
         }
-    }
-
-    public boolean swing() {
-        if (owner.getMainHandItem().getItem() instanceof ZenithItem) {
-            owner.swing(InteractionHand.MAIN_HAND, true);
-            owner.resetAttackStrengthTicker();
-            return true;
-        }
-        return false;
     }
 
     public void addPower() {

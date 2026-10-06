@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "zenith:zenith"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "zenith:true_copper_shortsword"
+  }
+}
