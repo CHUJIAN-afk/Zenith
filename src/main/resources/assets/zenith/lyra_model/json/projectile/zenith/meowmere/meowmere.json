@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "zenith:lyra_model/json/projectile/zenith/meowmere/meowmere"
+  }
+}
