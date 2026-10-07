@@ -10,7 +10,6 @@ import first.zenith.utils.ParticleHelper;
 import first.zenith.utils.RenderUtil;
 import first.zenith.utils.ZenithStreamCodecs;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FastColor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;

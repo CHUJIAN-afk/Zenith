@@ -6,13 +6,11 @@ import first.zenith.common.particle.zenithParticle.ZenithParticleProvider;
 import first.zenith.register.ZenithParticleRegister;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.event.RenderHandEvent;
-import net.neoforged.neoforge.client.event.RenderItemInFrameEvent;
 
 @EventBusSubscriber(modid = ZenithMod.MODID, value = Dist.CLIENT)
 public class ClientEvent {

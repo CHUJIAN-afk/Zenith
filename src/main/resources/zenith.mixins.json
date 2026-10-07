@@ -4,6 +4,7 @@
   "package": "first.zenith.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AttachmentEntityAccessor"
   ],
   "client": [
     "LocalPlayerMixin"
