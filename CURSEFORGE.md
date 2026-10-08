@@ -134,7 +134,7 @@ Built on the **Lyra** attachment-entity engine, which supplies the entity schedu
 ## 🙏 Credits
 
 - **Terraria** and the Zenith are the work of **Re-Logic**. This is an unofficial fan-made mod; it is not affiliated with or endorsed by Re-Logic.
-- Textures, models and behaviour modelled after the original Terraria weapon, from the community wiki.
+- All art and sound in this mod — every texture, the flying-sword models and the swing sound effect — are taken from **Terraria**. They are **not the author's original work; copyright belongs to Re-Logic**.
 - Built by **FirstSight**.
 
 > *"Obtain the Zenith, the ultimate sword forged from the peak moments of the journey."*
