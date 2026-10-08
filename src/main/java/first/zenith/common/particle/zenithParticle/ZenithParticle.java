@@ -16,31 +16,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-/**
- * 天顶剑粒子 - 方块头部接四棱锥拖尾的水滴。
- * <p>
- * 头部是边长为 2×size 的立方体，中截面垂直于运动方向，粒子停下来时依然是立体的，
- * 不会退化成一个平面。拖尾从方块后表面的四条棱出发连到尾端尖点，与后表面共用同一个面：
- * 拖尾伸到方块后面时只画拖尾（后表面被它整面盖住），拖尾收进方块里时只画后表面，任何角度都不留开口。
- * 第 1 tick 拖尾长度为零，因此不渲染；之后头部按通用粒子那样分刻插值平滑前进，
- * 尾端在拖尾最老的两个采样之间分刻插值，跟着头部一起向前滑，拖尾最长取 6 个 tick 的运动距离。
- * 粒子始终直线运动，不需要更复杂的插值；寿命最后 10% 整体收缩到 0，拖尾同步朝后表面收拢。
- * </p>
- */
 public class ZenithParticle extends TextureSheetParticle {
 
-    /** 拖尾采样长度：移动前的位置往前存 7 个，尾端因此落后头部 6 个 tick */
     private static final int TRAIL_LENGTH = 7;
 
     private final SpriteSet spriteSet;
     private final float baseScale;
     private final int color;
     private final Vec3[] trail = new Vec3[TRAIL_LENGTH];
-    /** 头部方块中截面四角相对头部的偏移，顺序首尾相邻，所在平面垂直于运动方向 */
     private final Vec3[] corners = new Vec3[4];
-    /**
-     * 单位运动方向，头部方块的中轴
-     */
     private final Vec3 axis;
     private final float rollSpeed;
 

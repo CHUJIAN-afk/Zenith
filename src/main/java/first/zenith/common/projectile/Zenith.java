@@ -1,6 +1,7 @@
 package first.zenith.common.projectile;
 
 
+import first.lyra.common.attachment.ImmunityData;
 import first.lyra.common.attachmentEntity.*;
 import first.lyra.utils.EasingCurve;
 import first.zenith.ZenithMod;
@@ -52,11 +53,6 @@ public class Zenith extends AttachmentEntity implements IEntityCollision<Zenith>
                 target = null;
             }
         });
-    }
-
-    @Override
-    public @NotNull DamageSource getDamageSource() {
-        return owner.damageSources().playerAttack(owner);
     }
 
     @Override
@@ -156,6 +152,11 @@ public class Zenith extends AttachmentEntity implements IEntityCollision<Zenith>
     @Override
     public boolean isValidCollisionTarget(Zenith zenith, LivingEntity target) {
         return owner != target && !(target instanceof Player player && (player.isSpectator() || player.isCreative()));
+    }
+
+    @Override
+    public @NotNull DamageSource getDamageSource() {
+        return owner.damageSources().playerAttack(owner);
     }
 
     @Override
