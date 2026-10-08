@@ -1,82 +1,95 @@
-# Zenith
+# Zenith · 天顶剑
 
-天顶剑（Zenith）独立模组 —— 从 `Summoner` 项目中分离出的单武器工程。
+> 泰拉瑞亚的终极之刃，在 Minecraft 中重建。
 
-- 平台：NeoForge 1.21.1（`neo_version=21.1.238`，Parchment `2024.11.17`）
-- modid：`zenith`，包名：`first.zenith`
-- 依赖：`first:Lyra:1.21.1.13`（mavenLocal），GeckoLib 由 Lyra 传递引入
+一个面向 **NeoForge 1.21.1** 的小型武器模组，只做两把剑：**天顶剑**与**真铜短剑**。
 
-## 迁移说明
+---
 
-原 `Summoner` 工程**未做任何改动**。本工程中的天顶剑相关代码是从原工程逐字复制过来的，
-只做了「脱离原工程所必需」的机械改名：
+## ⚔️ 模组内容
 
-| 原工程 | 本工程 |
+两把武器共用同一套机制。**按住右键蓄力**：每个 tick 按你的**攻击速度**累积能量，每攒满
+**3.33 点**能量就甩出一把飞剑；松开右键时，攒下的能量会在同一瞬间全部倾泻成一轮齐射。
+所以攻击速度决定剑的数量，攻击伤害决定每把剑的威力。
+
+甩出的飞剑不是贴图特效，而是真实飞行的物体：沿**真正的椭圆弧**飞行，每一帧重新追踪目标，
+带**定向包围盒扫掠碰撞**（不会因高速而穿模）、贴身**动态光照**与**绸带拖尾**。
+
+### 天顶剑（Zenith）
+
+泰拉瑞亚的终极之剑。下界合金级剑，**+19 攻击伤害**，史诗稀有度，不可堆叠。
+
+甩出的飞剑从 **21 把不同的剑**中随机抽取——铜短剑、光之驱逐、村正、泰拉刃、血腥屠夫、
+星怒、附魔剑、养蜂人、草剑、炽焰巨剑、永夜刃、真永夜刃、断钢剑、真断钢剑、无头骑士剑、
+种子弯刀、真泰拉刃、波涌之刃、狂星之怒、喵刀——以及天顶剑本体，在 **33%** 的发射中强制出现。
+
+### 真铜短剑（True Copper Shortsword）
+
+属性与天顶剑**完全相同**——它就是天顶剑那个外观变体。
+
+唯一的差别在表现：手持真铜短剑时，**你甩出的每一把剑都会固定变成铜短剑**。
+没有随机，没有轮换，没有例外。
+
+### 属性对照
+
+| 物品 | 攻击伤害 | 稀有度 | 堆叠 | 特性 |
+| --- | --- | --- | --- | --- |
+| **天顶剑** | +19（下界合金级） | 史诗 | 否 | 飞剑为 21 把随机抽取，33% 为天顶剑本体 |
+| **真铜短剑** | +19（下界合金级） | 史诗 | 否 | 飞剑固定为铜短剑 |
+
+两件物品都可在专属的 **天顶** 创造模式标签页中找到。
+
+### 获取方式
+
+- **无序合成互相转换**：天顶剑 ⇄ 真铜短剑。设定上它们本就是同一把武器。
+- **末地城战利品**：天顶剑有 **1%** 概率出现在末地城宝箱中。
+
+---
+
+## ⚙️ 运行要求
+
+| | |
 | --- | --- |
-| `first.summoner.*` | `first.zenith.*` |
-| `Summoner`（主类） | `ZenithMod` |
-| `Summoner.rl(...)` | `ZenithMod.rl(...)` |
-| `SummonerStreamCodecs` | `ZenithStreamCodecs` |
-| `SummonerItemRegister` / `SummonerSoundRegister` / `SummonerParticleRegister` | `ZenithItemRegister` / `ZenithSoundRegister` / `ZenithParticleRegister` |
-| `SummonerAttachmentRegister` / `SummonerAttachmentEntityRegister` | `ZenithAttachmentRegister` / `ZenithAttachmentEntityRegister` |
-| 资源命名空间 `summoner:` | `zenith:` |
+| **Minecraft** | 1.21.1 |
+| **加载器** | NeoForge 21.1+ |
+| **前置依赖** | [Lyra](https://github.com/CHUJIAN-afk/Lyra) 1.21.1.8+（必需） |
+| **安装侧** | 客户端与服务端 |
 
-**逻辑与排版零改动**：以下文件与原工程对应文件在完成上述改名后逐字节相同。
+本模组构建于 **Lyra** 附件实体引擎之上——实体调度器、渲染调度器、网络同步层与动态光照
+调度器都由它提供。
 
-- `common/projectile/Zenith.java`
-- `common/attachment/ZenithData.java`
-- `common/particle/zenithParticle/ZenithParticle.java`
-- `common/particle/zenithParticle/ZenithParticleOptions.java`
-- `common/particle/zenithParticle/ZenithParticleProvider.java`
-- `client/attachmentEntityRenderer/projectile/ZenithRenderer.java`
-- `client/attachmentEntityRenderer/projectile/ZenithTrailContext.java`
-- `network/ZenithPacket.java`
-- `utils/ParticleHelper.java`
-- `utils/RenderUtil.java`
-- `utils/ZenithStreamCodecs.java`（原 `SummonerStreamCodecs.java`）
+---
 
-图片、音效等二进制资源逐字节相同；21 个飞剑模型 JSON 仅把 `summoner:` 命名空间换成 `zenith:`。
+## 🙏 致谢
 
-## 已移植的子系统
+- **《泰拉瑞亚》** 与天顶剑均为 **Re-Logic** 的作品。本模组是非官方粉丝作品，
+  与 Re-Logic 无隶属关系，也未获其背书。
+- 贴图、模型与行为均参照《泰拉瑞亚》原版武器及社区 Wiki 制作。
+- 作者：**FirstSight**。
 
-| 子系统 | 涉及文件 |
-| --- | --- |
-| 粒子 | `ZenithParticle`、`ZenithParticleOptions`、`ZenithParticleProvider`、`ZenithParticleRegister`、`ClientEvent.onRegisterParticleProviders`、`assets/zenith/particles/zenith.json`、`textures/particle/zenith.png` |
-| 渲染 | `ZenithRenderer`、`ZenithTrailContext`、`ZenithModelRegister`（`ModelEvent.RegisterAdditional` 注册 21 把飞剑独立模型）、`ZenithAttachmentEntityRenderRegister`（`AttachmentEntityRenderDispatcher.register`） |
-| 调度器 | `Zenith.registerSyncFields(SyncFieldDispatcher)` 同步字段、`LyraHelper.get(owner).add(zenith)` 附件实体调度、`ZenithPacket` + `ZenithNetworkPacketRegister`、`Event.tick(PlayerTickEvent.Post)` |
-| 物品 | `ZenithItemRegister`（`LyraItemRegistries` 构建）、`ZenithCreativeTabRegister`、`ZenithLanguageRegister` |
+---
 
-## 目录结构
+## 📄 许可协议
 
-```
-src/main/java/first/zenith/
-├── ZenithMod.java                                    主类（@Mod("zenith")）
-├── common/
-│   ├── Event.java                                    玩家 tick：驱动 ZenithData / 左键发包
-│   ├── attachment/ZenithData.java                    蓄力与飞剑生成
-│   ├── particle/zenithParticle/                      天顶剑粒子
-│   └── projectile/Zenith.java                        飞剑附件实体
-├── client/
-│   ├── ClientEvent.java                              粒子 provider 注册
-│   └── attachmentEntityRenderer/projectile/          飞剑本体 + 绸带拖尾
-├── network/ZenithPacket.java                         左键挥砍包
-├── register/                                         各类注册
-└── utils/                                            ParticleHelper / RenderUtil / ZenithStreamCodecs
+**All Rights Reserved（保留所有权利）**
 
-src/main/resources/assets/zenith/
-├── lyra_model/json/projectile/zenith/<剑名>/          21 把飞剑的独立模型 + 贴图
-├── particles/zenith.json
-├── sounds.json + sounds/zenith.ogg
-└── textures/                                         zenith.png（爆闪）、item/、particle/
-```
+Copyright © 2026 FirstSight. All Rights Reserved.
 
-## 构建
+本模组——包括全部源代码、贴图、模型、音效、语言文件及其他资源——的所有权利
+均由作者保留。
 
-```bash
-# 需要 JDK 21 工具链（Gradle 可用 JDK 17/21 启动）
-./gradlew build          # 产物：build/libs/zenith-1.21.1.0.jar
-./gradlew runClient      # 开发客户端
-./gradlew runData        # 数据生成 -> src/generated/resources
-```
+未经作者事先书面许可，任何人**不得**：
 
-源码含中文注释与中文字面量，`build.gradle` 中已强制 `options.encoding = 'UTF-8'`。
+- 复制、转载、再分发本模组的任何部分；
+- 修改、翻译、反编译，或基于本模组制作衍生作品；
+- 将本模组重新上传至任何平台或分发渠道；
+- 将本模组用于任何商业用途。
+
+本模组为**非官方粉丝作品**，与 **Re-Logic** 无任何隶属关系，亦未获其背书。
+《泰拉瑞亚》（Terraria）及天顶剑等相关内容的一切权利归 **Re-Logic** 所有。
+
+---
+
+## 🛠️ 开发
+
+工程内部结构、迁移说明与构建方式见 [DEVELOPMENT.md](DEVELOPMENT.md)。
