@@ -8,10 +8,12 @@ import first.lyra.client.render.trail.TrailContext;
 import first.lyra.common.attachmentEntity.PathNode;
 import first.zenith.ZenithMod;
 import first.zenith.common.projectile.Zenith;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class ZenithTrailContext extends RibbonTrailContext<Zenith> {
         int nodeCount = nodes.size();
         if (nodeCount > 1) {
             VertexConsumer buffer = bufferSource.getBuffer(RenderType.entityTranslucent(ZenithMod.rl("textures/zenith_trail.png")));
-            PoseStack.Pose pose = poseStack.last();
+            Matrix4f matrix = new Matrix4f(poseStack.last().pose());
             Vec3 renderPos = context.visualNode.pos();
             Vector3f currTip = new Vector3f();
             Vector3f currBase = new Vector3f();
@@ -72,10 +74,21 @@ public class ZenithTrailContext extends RibbonTrailContext<Zenith> {
                 float prx = (float)(prev.pos().x - renderPos.x);
                 float pry = (float)(prev.pos().y - renderPos.y);
                 float prz = (float)(prev.pos().z - renderPos.z);
-                buffer.addVertex(pose, crx + currTip.x, cry + currTip.y, crz + currTip.z).setColor(currTipColor).setUv(0.0F, currProgress).setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880).setNormal(0.0F, 0.0F, 1.0F);
-                buffer.addVertex(pose, crx + currBase.x, cry + currBase.y, crz + currBase.z).setColor(currBaseColor).setUv(1.0F, currProgress).setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880).setNormal(0.0F, 0.0F, 1.0F);
-                buffer.addVertex(pose, prx + prevBase.x, pry + prevBase.y, prz + prevBase.z).setColor(prevBaseColor).setUv(1.0F, prevProgress).setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880).setNormal(0.0F, 0.0F, 1.0F);
-                buffer.addVertex(pose, prx + prevTip.x, pry + prevTip.y, prz + prevTip.z).setColor(prevTipColor).setUv(0.0F, prevProgress).setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880).setNormal(0.0F, 0.0F, 1.0F);
+                Vector3f v1 = matrix.transformPosition(crx + currTip.x, cry + currTip.y, crz + currTip.z, new Vector3f());
+                Vector3f v2 = matrix.transformPosition(crx + currBase.x, cry + currBase.y, crz + currBase.z, new Vector3f());
+                Vector3f v3 = matrix.transformPosition(prx + prevBase.x, pry + prevBase.y, prz + prevBase.z, new Vector3f());
+                Vector3f v4 = matrix.transformPosition(prx + prevTip.x, pry + prevTip.y, prz + prevTip.z, new Vector3f());
+                Vector3f normal = new Vector3f(v3).sub(v1).cross(new Vector3f(v2).sub(v1));
+                if (normal.lengthSquared() > 1.0E-6F) {
+                    normal.normalize();
+                } else {
+                    normal.set(0.0F, 1.0F, 0.0F);
+                }
+                Vector3f direction = matrix.transformDirection(normal, new Vector3f());
+                buffer.vertex(v1.x, v1.y, v1.z).color(currTipColor).uv(0.0F, currProgress).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(LightTexture.FULL_BRIGHT).normal(direction.x, direction.y, direction.z).endVertex();
+                buffer.vertex(v2.x, v2.y, v2.z).color(currBaseColor).uv(1.0F, currProgress).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(LightTexture.FULL_BRIGHT).normal(direction.x, direction.y, direction.z).endVertex();
+                buffer.vertex(v3.x, v3.y, v3.z).color(prevBaseColor).uv(1.0F, prevProgress).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(LightTexture.FULL_BRIGHT).normal(direction.x, direction.y, direction.z).endVertex();
+                buffer.vertex(v4.x, v4.y, v4.z).color(prevTipColor).uv(0.0F, prevProgress).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(LightTexture.FULL_BRIGHT).normal(direction.x, direction.y, direction.z).endVertex();
             }
         }
     }
