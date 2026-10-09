@@ -3,19 +3,23 @@ package first.zenith.client.attachmentEntityRenderer.projectile;
 import com.mojang.blaze3d.vertex.PoseStack;
 import first.lyra.api.LyraAPI;
 import first.lyra.client.render.AbstractAttachmentEntityRenderer;
+import first.lyra.client.render.ColorBufferSource;
+import first.lyra.client.render.LyraRenderTypes;
 import first.lyra.client.render.ModelContext;
 import first.lyra.client.render.RenderContext;
 import first.lyra.client.render.RenderUtil;
-import first.lyra.client.render.model.LyraModelRenderer;
 import first.lyra.common.attachmentEntity.PathNode;
 import first.lyra.utils.EasingCurve;
 import first.zenith.ZenithMod;
 import first.zenith.common.projectile.Zenith;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 public class ZenithRenderer extends AbstractAttachmentEntityRenderer<Zenith> {
@@ -27,7 +31,8 @@ public class ZenithRenderer extends AbstractAttachmentEntityRenderer<Zenith> {
             if (zenith.alpha > 0.3) {
                 context = context.trail(new ZenithTrailContext()
                                                 .downOffset(-1.32575f)
-                                                .tipAlphaBoost((entity, progress) -> (1.0F - progress) * 20.0F * zenith.alpha).timer(1)
+                                                .tipAlphaBoost((entity, progress) -> (1.0F - progress) * 20.0F * zenith.alpha)
+                                                .timer(1)
                                                 .colorRGB(zenith.renderType.getColor()));
             }
             return context.model(new ModelContext()
@@ -43,10 +48,13 @@ public class ZenithRenderer extends AbstractAttachmentEntityRenderer<Zenith> {
     protected void render(PoseStack poseStack, MultiBufferSource bufferSource) {
         Zenith zenith = context.entity;
         PathNode visualNode = context.visualNode;
-        LyraModelRenderer.json(new ModelResourceLocation(zenith.renderType.getTexture(), "standalone"))
-                .color(context.color.argbInt())
-                .light(RenderUtil.FULL_LIGHT)
-                .render(poseStack, bufferSource);
+        ModelManager modelManager = Minecraft.getInstance().getModelManager();
+        BakedModel model = modelManager.getModel(zenith.renderType.getTexture());
+        if (model != modelManager.getMissingModel()) {
+            ColorBufferSource colorBufferSource = new ColorBufferSource(bufferSource);
+            colorBufferSource.setColor(context.color.argbInt());
+            Minecraft.getInstance().getItemRenderer().renderModelLists(model, ItemStack.EMPTY, RenderUtil.FULL_LIGHT, OverlayTexture.NO_OVERLAY, poseStack, colorBufferSource.getBuffer(LyraRenderTypes.getModel()));
+        }
         float light = zenith.alpha * 0.5f;
         if (zenith.getTickCount() < 2) {
             light *= context.partialTick;
