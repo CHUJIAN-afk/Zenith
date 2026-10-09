@@ -16,7 +16,7 @@ public class ZenithDecoration extends Minion {
     private ItemStack itemStack = ItemStack.EMPTY;
 
     public ZenithDecoration() {
-        super(ZenithAttachmentEntityRegister.ZENITH_DECORATION);
+        super(ZenithAttachmentEntityRegister.holder(ZenithAttachmentEntityRegister.ZENITH_DECORATION));
         setSlotCost(0);
     }
 
@@ -81,4 +81,7 @@ public class ZenithDecoration extends Minion {
     }
 
     @Override
-    pu
+    public int getSearchDistance() {
+        return 0;
+    }
+}

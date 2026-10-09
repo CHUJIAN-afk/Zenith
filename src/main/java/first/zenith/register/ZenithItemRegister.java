@@ -51,11 +51,6 @@ public class ZenithItemRegister {
             .itemModel(ZenithItemRegister::handheldItem)
             .build();
 
-    /**
-     * Forge 1.20.1 的 {@code ItemModelProvider} 只有 {@code basicItem}（父模型 {@code item/generated}）；
-     * 1.21 的 {@code handheldItem}（父模型 {@code item/handheld}）在此等价实现，
-     * 否则剑会渲染成扁平图标而不是手持姿态。
-     */
     private static void handheldItem(ItemModelProvider provider, ResourceLocation item) {
         provider.getBuilder(item.toString())
                 .parent(new ModelFile.UncheckedModelFile("item/handheld"))
