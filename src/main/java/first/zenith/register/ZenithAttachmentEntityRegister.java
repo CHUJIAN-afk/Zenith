@@ -22,18 +22,11 @@ public class ZenithAttachmentEntityRegister {
         return LyraRegistries.ATTACHMENT_ENTITY_TYPES.register(name, location -> new AttachmentEntityType<>(location, supplier));
     }
 
-    /**
-     * Lyra 的 {@code AttachmentEntity} 构造函数要求 {@code Holder<AttachmentEntityType<?>>}，
-     * 而 Lyra 自定义注册表的泛型是 {@code AttachmentEntityType<? extends AttachmentEntity>}。
-     * 二者只是类型参数写法不同（{@code ? extends AttachmentEntity} 与 {@code ?}），
-     * 因泛型不变性无法直接赋值，这里做一次受检的窄化转换；运行时类型完全相同，无行为影响。
-     */
     @SuppressWarnings("unchecked")
     public static <T extends AttachmentEntity> Holder<AttachmentEntityType<?>> holder(PortRegistryEntry<AttachmentEntityType<? extends AttachmentEntity>, AttachmentEntityType<T>> entry) {
         return (Holder<AttachmentEntityType<?>>) (Holder<?>) entry;
     }
 
-    /** Lyra 的自定义注册表由 Lyra 自身挂载，无需在此重复注册。 */
     public static void register() {
     }
 }

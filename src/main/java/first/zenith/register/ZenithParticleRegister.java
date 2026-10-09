@@ -11,7 +11,6 @@ public class ZenithParticleRegister {
 
     private static final PortParticleTypeRegistration Register = PortRegisterHandler.particleType(ZenithMod.MODID);
 
-    /** PortLib 用 MapCodec + PortStreamCodec 直接构建 1.21 形态的 ParticleType。 */
     public static final PortRegistryEntry<ParticleType<?>, ParticleType<ZenithParticleOptions>> Zenith =
             Register.register("zenith", false, ZenithParticleOptions.CODEC, ZenithParticleOptions.STREAM_CODEC);
 

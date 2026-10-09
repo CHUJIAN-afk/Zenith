@@ -9,13 +9,6 @@ import org.mesdag.portlib.event.PortEventHandler;
 import org.mesdag.portlib.event.client.PortRegisterParticleProvidersEvent;
 import org.mesdag.portlib.event.client.PortRenderHandEvent;
 
-/**
- * 客户端事件。
- * <p>
- * 1.21.1 用 {@code @EventBusSubscriber(Dist.CLIENT)}；Forge 1.20.1 改为在客户端由
- * {@link #init()} 显式挂监听。
- * </p>
- */
 public class ClientEvent {
 
     public static void init() {

@@ -14,7 +14,6 @@ public class ZenithAttachmentRegister {
     public static final PortRegistryEntry<PortAttachmentType<?>, PortAttachmentType<ZenithData>> ZenithData =
             Register.registerSimple("zenith_data", () -> PortAttachmentType.builder(ZenithData::new));
 
-    /** PortLib 的注册在构造期已挂到 mod 总线，无需显式注册。 */
     public static void register() {
     }
 }

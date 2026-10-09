@@ -63,7 +63,6 @@ public class ZenithRenderer extends AbstractAttachmentEntityRenderer<Zenith> {
             alpha = EasingCurve.EASE_IN_OUT_QUAD.apply(alpha);
             if (alpha > 0) {
                 Vec3 pos = visualNode.pos();
-                // 1.20.1 的 FastColor.ARGB32 没有 (alpha, packedRGB) 重载，按 Lyra 的打包约定手动拆位。
                 int rgb = context.trail.colorRGB;
                 int color = FastColor.ARGB32.color((int) (alpha * 255), (rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
                 RenderUtil.renderImage(ZenithMod.rl("textures/zenith.png"), pos, 4 * alpha, alpha, bufferSource, false, color);

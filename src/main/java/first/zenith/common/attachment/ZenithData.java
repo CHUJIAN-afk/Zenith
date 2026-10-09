@@ -111,10 +111,8 @@ public class ZenithData {
                         Vec3 toEntity = targetPoint.subtract(center);
                         double angle = Math.toDegrees(Math.acos(toEntity.dot(lookAngle) / toEntity.length()));
                         if (angle <= fovAngle) {
-                            // 角度、距离分别归一化到 [0,1]
                             double normalizedAngle = angle / fovAngle;
                             double normalizedDistance = toEntity.length() / searchRange;
-                            // 综合分数：按权重合成角度与距离，越小越优先
                             double score = (1.0 - distanceWeight) * normalizedAngle + distanceWeight * normalizedDistance;
                             if (score < bestScore) {
                                 bestScore = score;

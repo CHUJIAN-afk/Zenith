@@ -9,21 +9,10 @@ import org.mesdag.portlib.event.client.PortModelEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 天顶剑飞剑模型注册。
- * <p>
- * 注册不与物品/方块关联的独立模型文件，供渲染器直接使用。
- * 1.21.1: ModelEvent.RegisterAdditional + ModelResourceLocation.standalone；
- * 1.20.1/Forge: PortLib 的 {@link PortModelEvent.RegisterAdditional} 包装，
- * 由 {@link #init()} 在客户端显式挂载（原 {@code @EventBusSubscriber(Dist.CLIENT)}）。
- * Lyra 路径约定：assets/zenith/lyra_model/json/&lt;folder&gt;/&lt;id&gt;/&lt;id&gt;.json|png。
- * </p>
- */
 public class ZenithModelRegister {
 
     private static final List<ModelResourceLocation> MODELS = new ArrayList<>();
 
-    // 天顶剑飞剑：贴图取自泰拉瑞亚 Wiki，统一父模型为 minecraft:item/handheld。
     public static final ModelResourceLocation ZENITH_SWORD_COPPER_SHORT_SWORD = zenithSword("copper_short_sword");
     public static final ModelResourceLocation ZENITH_SWORD_LIGHTS_BANE = zenithSword("lights_bane");
     public static final ModelResourceLocation ZENITH_SWORD_MURAMASA = zenithSword("muramasa");
