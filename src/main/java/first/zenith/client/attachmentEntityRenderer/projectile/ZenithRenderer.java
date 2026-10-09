@@ -13,6 +13,7 @@ import first.zenith.ZenithMod;
 import first.zenith.common.projectile.Zenith;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
@@ -42,7 +43,7 @@ public class ZenithRenderer extends AbstractAttachmentEntityRenderer<Zenith> {
     protected void render(PoseStack poseStack, MultiBufferSource bufferSource) {
         Zenith zenith = context.entity;
         PathNode visualNode = context.visualNode;
-        LyraModelRenderer.json(LyraModelRenderer.jsonLocation(zenith.renderType.getTexture()))
+        LyraModelRenderer.json(new ModelResourceLocation(zenith.renderType.getTexture(), "standalone"))
                 .color(context.color.argbInt())
                 .light(RenderUtil.FULL_LIGHT)
                 .render(poseStack, bufferSource);
