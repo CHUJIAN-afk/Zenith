@@ -1,34 +1,20 @@
 package first.zenith.register;
 
-import com.mojang.serialization.MapCodec;
 import first.zenith.ZenithMod;
 import first.zenith.common.particle.zenithParticle.ZenithParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import org.jetbrains.annotations.NotNull;
+import org.mesdag.portlib.registries.PortParticleTypeRegistration;
+import org.mesdag.portlib.registries.PortRegisterHandler;
+import org.mesdag.portlib.registries.PortRegistryEntry;
 
 public class ZenithParticleRegister {
 
-    private static final DeferredRegister<ParticleType<?>> Register = DeferredRegister.create(Registries.PARTICLE_TYPE, ZenithMod.MODID);
+    private static final PortParticleTypeRegistration Register = PortRegisterHandler.particleType(ZenithMod.MODID);
 
-    public static final DeferredHolder<ParticleType<?>, ParticleType<ZenithParticleOptions>> Zenith = Register.register("zenith", () -> new ParticleType<>(false) {
-        @Override
-        public @NotNull MapCodec<ZenithParticleOptions> codec() {
-            return ZenithParticleOptions.CODEC;
-        }
+    /** PortLib 用 MapCodec + PortStreamCodec 直接构建 1.21 形态的 ParticleType。 */
+    public static final PortRegistryEntry<ParticleType<?>, ParticleType<ZenithParticleOptions>> Zenith =
+            Register.register("zenith", false, ZenithParticleOptions.CODEC, ZenithParticleOptions.STREAM_CODEC);
 
-        @Override
-        public @NotNull StreamCodec<RegistryFriendlyByteBuf, ZenithParticleOptions> streamCodec() {
-            return ZenithParticleOptions.STREAM_CODEC;
-        }
-    });
-
-    public static void register(IEventBus eventBus) {
-        Register.register(eventBus);
+    public static void register() {
     }
 }

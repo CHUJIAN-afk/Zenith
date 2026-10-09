@@ -1,7 +1,6 @@
 package first.zenith.common.projectile;
 
 
-import first.lyra.common.attachment.ImmunityData;
 import first.lyra.common.attachmentEntity.*;
 import first.lyra.utils.EasingCurve;
 import first.zenith.ZenithMod;
@@ -10,7 +9,9 @@ import first.zenith.register.ZenithAttachmentEntityRegister;
 import first.zenith.utils.ParticleHelper;
 import first.zenith.utils.RenderUtil;
 import first.zenith.utils.ZenithStreamCodecs;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -32,7 +33,7 @@ public class Zenith extends AttachmentEntity implements IEntityCollision<Zenith>
     public static final EasingCurve ZENITH_EASING_CURVE = EasingCurve.bezier().control(0.1f).control(0.2f).control(0.3f).control(0.4f).control(0.45f).control(0.475f).control(0.5f).control(0.5f).control(0.525f).control(0.575f).control(0.6f).control(0.7f).control(0.8f).control(0.9f).control(1f).build();
 
     public Zenith() {
-        super(ZenithAttachmentEntityRegister.ZENITH);
+        super((Holder<AttachmentEntityType<?>>) (Holder<?>) ZenithAttachmentEntityRegister.ZENITH);
         this.random = new Random();
         this.renderType = RenderType.values()[random.nextInt(RenderType.values().length)];
         this.alpha = random.nextFloat(0.2f, 1);
@@ -60,7 +61,7 @@ public class Zenith extends AttachmentEntity implements IEntityCollision<Zenith>
         super.tick();
         setCurrentPathNode(getRenderNode(1));
         if (tickCount < 8) {
-            int length = Math.clamp((int) (offest.length()), 2, 16);
+            int length = Mth.clamp((int) (offest.length()), 2, 16);
             for (int i = 1; i < length; i++) {
                 float partialTick = (float) i / length;
                 int count = random.nextInt(-6, 2);

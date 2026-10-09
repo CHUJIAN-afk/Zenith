@@ -3,22 +3,20 @@ package first.zenith.register;
 import first.zenith.ZenithMod;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import org.mesdag.portlib.registries.PortRegisterHandler;
+import org.mesdag.portlib.registries.PortRegistration;
+import org.mesdag.portlib.registries.PortRegistryEntry;
 
 public class ZenithSoundRegister {
 
-    private static final DeferredRegister<SoundEvent> Register = DeferredRegister.create(Registries.SOUND_EVENT, ZenithMod.MODID);
+    private static final PortRegistration<SoundEvent> Register = PortRegisterHandler.create(ZenithMod.MODID, Registries.SOUND_EVENT);
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> Zenith = create("zenith");
+    public static final PortRegistryEntry<SoundEvent, SoundEvent> Zenith = create("zenith");
 
-    private static DeferredHolder<SoundEvent, SoundEvent> create(String name) {
+    private static PortRegistryEntry<SoundEvent, SoundEvent> create(String name) {
         return Register.register(name, () -> SoundEvent.createVariableRangeEvent(ZenithMod.rl(name)));
     }
 
-    public static void register(IEventBus bus) {
-        Register.register(bus);
+    public static void register() {
     }
-
 }

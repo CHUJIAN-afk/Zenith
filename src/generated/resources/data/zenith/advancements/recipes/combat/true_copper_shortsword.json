@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "items": "zenith:zenith"
+            "items": [
+              "zenith:zenith"
+            ]
           }
         ]
       },
@@ -20,13 +22,14 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_zenith"
+      "has_zenith",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
       "zenith:true_copper_shortsword"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

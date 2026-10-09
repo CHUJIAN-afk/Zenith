@@ -1,4 +1,4 @@
-// 1.21.1	2026-10-06T15:10:55.0550935	Tags for minecraft:item mod id zenith
-b4b7261a2f65d39546912e8b09e59b302e6319dc data/minecraft/tags/item/enchantable/durability.json
-b4b7261a2f65d39546912e8b09e59b302e6319dc data/minecraft/tags/item/enchantable/sword.json
-b4b7261a2f65d39546912e8b09e59b302e6319dc data/minecraft/tags/item/enchantable/weapon.json
+// 1.20.1	2026-10-09T22:36:07.1407172	Tags for minecraft:item mod id zenith
+b4b7261a2f65d39546912e8b09e59b302e6319dc data/minecraft/tags/items/enchantable/durability.json
+b4b7261a2f65d39546912e8b09e59b302e6319dc data/minecraft/tags/items/enchantable/sword.json
+b4b7261a2f65d39546912e8b09e59b302e6319dc data/minecraft/tags/items/enchantable/weapon.json

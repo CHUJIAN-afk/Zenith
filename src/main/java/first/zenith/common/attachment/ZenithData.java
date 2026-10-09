@@ -21,7 +21,7 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import org.mesdag.portlib.attachment.IPortAttachmentHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class ZenithData {
     private final Player owner;
     private float power = 0;
 
-    public ZenithData(IAttachmentHolder holder) {
+    public ZenithData(IPortAttachmentHolder holder) {
         if (holder instanceof Player player) {
             this.owner = player;
         } else {
@@ -50,11 +50,11 @@ public class ZenithData {
             ItemStack itemStack = inventory.getItem(i);
             if (itemStack.getItem() instanceof ZenithItem) {
                 zenithItemStackList.add(itemStack);
-                if (ItemStack.isSameItemSameComponents(itemStack, mainHandItem)) {
-                    zenithItemStackList.removeLast();
+                if (ItemStack.isSameItemSameTags(itemStack, mainHandItem)) {
+                    zenithItemStackList.remove(zenithItemStackList.size() - 1);
                     mainHandItem = ItemStack.EMPTY;
-                } else if (ItemStack.isSameItemSameComponents(itemStack, offhandItem)) {
-                    zenithItemStackList.removeLast();
+                } else if (ItemStack.isSameItemSameTags(itemStack, offhandItem)) {
+                    zenithItemStackList.remove(zenithItemStackList.size() - 1);
                     offhandItem = ItemStack.EMPTY;
                 }
             }
@@ -67,7 +67,7 @@ public class ZenithData {
             boolean find = false;
             for (ZenithDecoration decoration : list) {
                 if (decoration.isRemove()) {
-                    if (ItemStack.isSameItemSameComponents(decoration.getItemStack(), itemStack)) {
+                    if (ItemStack.isSameItemSameTags(decoration.getItemStack(), itemStack)) {
                         ((AttachmentEntityAccessor) decoration).setRemove(false);
                         decoration.setOrder(count);
                         find = true;

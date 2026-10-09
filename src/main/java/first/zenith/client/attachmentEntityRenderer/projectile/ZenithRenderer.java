@@ -13,8 +13,8 @@ import first.zenith.ZenithMod;
 import first.zenith.common.projectile.Zenith;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 public class ZenithRenderer extends AbstractAttachmentEntityRenderer<Zenith> {
@@ -42,7 +42,7 @@ public class ZenithRenderer extends AbstractAttachmentEntityRenderer<Zenith> {
     protected void render(PoseStack poseStack, MultiBufferSource bufferSource) {
         Zenith zenith = context.entity;
         PathNode visualNode = context.visualNode;
-        LyraModelRenderer.json(ModelResourceLocation.standalone(zenith.renderType.getTexture()))
+        LyraModelRenderer.json(LyraModelRenderer.jsonLocation(zenith.renderType.getTexture()))
                 .color(context.color.argbInt())
                 .light(RenderUtil.FULL_LIGHT)
                 .render(poseStack, bufferSource);
@@ -63,7 +63,9 @@ public class ZenithRenderer extends AbstractAttachmentEntityRenderer<Zenith> {
             alpha = EasingCurve.EASE_IN_OUT_QUAD.apply(alpha);
             if (alpha > 0) {
                 Vec3 pos = visualNode.pos();
-                int color = FastColor.ARGB32.color((int) (alpha * 255), context.trail.colorRGB);
+                // 1.20.1 的 FastColor.ARGB32 没有 (alpha, packedRGB) 重载，按 Lyra 的打包约定手动拆位。
+                int rgb = context.trail.colorRGB;
+                int color = FastColor.ARGB32.color((int) (alpha * 255), (rgb >> 16) & 0xFF, (rgb >> 8) & 0xFF, rgb & 0xFF);
                 RenderUtil.renderImage(ZenithMod.rl("textures/zenith.png"), pos, 4 * alpha, alpha, bufferSource, false, color);
             }
         }
@@ -77,10 +79,10 @@ public class ZenithRenderer extends AbstractAttachmentEntityRenderer<Zenith> {
         } else {
             float tick = context.entity.getTickCount() + context.partialTick;
             if (tick < 4) {
-                alpha = Math.clamp(tick / 4f, 0.21f, 1f);
+                alpha = Mth.clamp(tick / 4f, 0.21f, 1f);
             }
             if (tick > 8) {
-                alpha = Math.clamp((12 - tick) / 4f, 0.102F, 1f);
+                alpha = Mth.clamp((12 - tick) / 4f, 0.102F, 1f);
             }
         }
         if (context.entity.alpha < alpha) {

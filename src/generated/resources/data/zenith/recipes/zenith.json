@@ -3,11 +3,10 @@
   "category": "equipment",
   "ingredients": [
     {
-      "item": "zenith:zenith"
+      "item": "zenith:true_copper_shortsword"
     }
   ],
   "result": {
-    "count": 1,
-    "id": "zenith:true_copper_shortsword"
+    "item": "zenith:zenith"
   }
 }

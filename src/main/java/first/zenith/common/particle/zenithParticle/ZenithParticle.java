@@ -177,8 +177,18 @@ public class ZenithParticle extends TextureSheetParticle {
         }
     }
 
+    /**
+     * 1.21 的 {@code VertexConsumer.addVertex(x,y,z,argb,u,v,overlay,light,nx,ny,nz)} 一次性写入 11 个值；
+     * 1.20.1 需要按顶点格式逐段链式写入（位置 → 颜色 → UV → overlay → 光照 → 法线）。
+     */
     private static void vertex(VertexConsumer buffer, float x, float y, float z, float u, float v, int argb, int light, int overlay) {
-        buffer.addVertex(x, y, z, argb, u, v, overlay, light, 0.0F, 0.0F, 1.0F);
+        buffer.vertex(x, y, z)
+                .color(argb)
+                .uv(u, v)
+                .overlayCoords(overlay)
+                .uv2(light)
+                .normal(0.0F, 0.0F, 1.0F)
+                .endVertex();
     }
 
     @Override

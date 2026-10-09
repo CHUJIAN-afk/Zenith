@@ -2,21 +2,19 @@ package first.zenith.register;
 
 import first.zenith.ZenithMod;
 import first.zenith.common.attachment.ZenithData;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.attachment.AttachmentType;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import org.mesdag.portlib.attachment.PortAttachmentType;
+import org.mesdag.portlib.registries.PortAttachmentRegistration;
+import org.mesdag.portlib.registries.PortRegisterHandler;
+import org.mesdag.portlib.registries.PortRegistryEntry;
 
 public class ZenithAttachmentRegister {
 
-    private static final DeferredRegister<AttachmentType<?>> Register = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, ZenithMod.MODID);
+    private static final PortAttachmentRegistration Register = PortRegisterHandler.attachment(ZenithMod.MODID);
 
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<ZenithData>> ZenithData =
-            Register.register("zenith_data", () -> AttachmentType.builder(ZenithData::new)
-                    .build());
+    public static final PortRegistryEntry<PortAttachmentType<?>, PortAttachmentType<ZenithData>> ZenithData =
+            Register.registerSimple("zenith_data", () -> PortAttachmentType.builder(ZenithData::new));
 
-    public static void register(IEventBus eventBus) {
-        Register.register(eventBus);
+    /** PortLib 的注册在构造期已挂到 mod 总线，无需显式注册。 */
+    public static void register() {
     }
 }

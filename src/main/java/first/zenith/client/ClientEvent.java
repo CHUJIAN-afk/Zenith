@@ -1,27 +1,33 @@
 package first.zenith.client;
 
-import first.zenith.ZenithMod;
 import first.zenith.common.item.ZenithItem;
 import first.zenith.common.particle.zenithParticle.ZenithParticleProvider;
 import first.zenith.register.ZenithParticleRegister;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import net.neoforged.neoforge.client.event.RenderHandEvent;
+import org.mesdag.portlib.event.PortEventHandler;
+import org.mesdag.portlib.event.client.PortRegisterParticleProvidersEvent;
+import org.mesdag.portlib.event.client.PortRenderHandEvent;
 
-@EventBusSubscriber(modid = ZenithMod.MODID, value = Dist.CLIENT)
+/**
+ * 客户端事件。
+ * <p>
+ * 1.21.1 用 {@code @EventBusSubscriber(Dist.CLIENT)}；Forge 1.20.1 改为在客户端由
+ * {@link #init()} 显式挂监听。
+ * </p>
+ */
 public class ClientEvent {
 
-    @SubscribeEvent
-    public static void onRegisterParticleProvidersEvent(RegisterParticleProvidersEvent event) {
+    public static void init() {
+        PortEventHandler.addListener(ClientEvent::onRegisterParticleProvidersEvent);
+        PortEventHandler.addListener(ClientEvent::onRenderHandEvent);
+    }
+
+    public static void onRegisterParticleProvidersEvent(PortRegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ZenithParticleRegister.Zenith.get(), ZenithParticleProvider::new);
     }
 
-    @SubscribeEvent
-    public static void onRenderHandEvent(RenderHandEvent event) {
+    public static void onRenderHandEvent(PortRenderHandEvent event) {
         if (event.getItemStack().getItem() instanceof ZenithItem) {
             LocalPlayer player = Minecraft.getInstance().player;
             if (player != null && player.isUsingItem()) {

@@ -1,24 +1,17 @@
 package first.zenith.utils;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.texture.SpriteContents;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemStack;
-import net.neoforged.fml.loading.FMLLoader;
-
-import java.util.List;
-import java.util.Map;
-import java.util.WeakHashMap;
+import org.mesdag.portlib.client.PortDeltaTicker;
+import org.mesdag.portlib.wrapper.PortEnvironment;
 
 public class RenderUtil {
 
+    /**
+     * 1.21.1 用 {@code Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true)}；
+     * 1.20.1 由 PortLib 的 {@link PortDeltaTicker} 提供等价实现。
+     */
     public static float getPartialTick() {
-        if (FMLLoader.getDist().isClient()) {
-            return Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
+        if (PortEnvironment.isPhysicalClient()) {
+            return PortDeltaTicker.INSTANCE.getGameTimeDeltaPartialTick(true);
         }
         return 1;
     }

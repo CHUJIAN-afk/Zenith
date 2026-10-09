@@ -3,28 +3,25 @@ package first.zenith.register;
 import first.lyra.common.attachmentEntity.AttachmentEntity;
 import first.lyra.common.attachmentEntity.AttachmentEntityType;
 import first.lyra.register.LyraRegistries;
-import first.zenith.ZenithMod;
 import first.zenith.common.minion.ZenithDecoration;
 import first.zenith.common.projectile.Zenith;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import org.mesdag.portlib.registries.PortRegistryEntry;
 
 import java.util.function.Supplier;
 
 public class ZenithAttachmentEntityRegister {
 
-    private static final DeferredRegister<AttachmentEntityType<?>> Register = DeferredRegister.create(LyraRegistries.ATTACHMENT_ENTITY_TYPES, ZenithMod.MODID);
+    public static final PortRegistryEntry<AttachmentEntityType<? extends AttachmentEntity>, AttachmentEntityType<Zenith>> ZENITH =
+            register("zenith", Zenith::new);
 
-    public static final DeferredHolder<AttachmentEntityType<?>, AttachmentEntityType<Zenith>> ZENITH = register("zenith", Zenith::new);
+    public static final PortRegistryEntry<AttachmentEntityType<? extends AttachmentEntity>, AttachmentEntityType<ZenithDecoration>> ZENITH_DECORATION =
+            register("zenith_decoration", ZenithDecoration::new);
 
-    public static final DeferredHolder<AttachmentEntityType<?>, AttachmentEntityType<ZenithDecoration>> ZENITH_DECORATION = register("zenith_decoration", ZenithDecoration::new);
-
-    private static <T extends AttachmentEntity> DeferredHolder<AttachmentEntityType<?>, AttachmentEntityType<T>> register(String name, Supplier<T> supplier) {
-        return Register.register(name, ResourceLocation -> new AttachmentEntityType<>(ResourceLocation, supplier));
+    private static <T extends AttachmentEntity> PortRegistryEntry<AttachmentEntityType<? extends AttachmentEntity>, AttachmentEntityType<T>> register(String name, Supplier<T> supplier) {
+        return LyraRegistries.ATTACHMENT_ENTITY_TYPES.register(name, location -> new AttachmentEntityType<>(location, supplier));
     }
 
-    public static void register(IEventBus eventBus) {
-        Register.register(eventBus);
+    /** Lyra 的自定义注册表由 Lyra 自身挂载，无需在此重复注册。 */
+    public static void register() {
     }
 }

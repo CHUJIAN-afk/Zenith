@@ -3,10 +3,8 @@ package first.zenith.register;
 import first.lyra.client.render.model.LyraModelRenderer;
 import first.zenith.ZenithMod;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ModelEvent;
+import org.mesdag.portlib.event.PortEventHandler;
+import org.mesdag.portlib.event.client.PortModelEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +13,12 @@ import java.util.List;
  * 天顶剑飞剑模型注册。
  * <p>
  * 注册不与物品/方块关联的独立模型文件，供渲染器直接使用。
- * 1.21.1: ModelEvent.RegisterAdditional + ModelResourceLocation.standalone。
+ * 1.21.1: ModelEvent.RegisterAdditional + ModelResourceLocation.standalone；
+ * 1.20.1/Forge: PortLib 的 {@link PortModelEvent.RegisterAdditional} 包装，
+ * 由 {@link #init()} 在客户端显式挂载（原 {@code @EventBusSubscriber(Dist.CLIENT)}）。
  * Lyra 路径约定：assets/zenith/lyra_model/json/&lt;folder&gt;/&lt;id&gt;/&lt;id&gt;.json|png。
  * </p>
  */
-@EventBusSubscriber(modid = ZenithMod.MODID, value = Dist.CLIENT)
 public class ZenithModelRegister {
 
     private static final List<ModelResourceLocation> MODELS = new ArrayList<>();
@@ -57,8 +56,11 @@ public class ZenithModelRegister {
         return location;
     }
 
-    @SubscribeEvent
-    public static void registerAdditional(ModelEvent.RegisterAdditional event) {
+    public static void init() {
+        PortEventHandler.addListener(ZenithModelRegister::registerAdditional);
+    }
+
+    public static void registerAdditional(PortModelEvent.RegisterAdditional event) {
         MODELS.forEach(event::register);
     }
 }
