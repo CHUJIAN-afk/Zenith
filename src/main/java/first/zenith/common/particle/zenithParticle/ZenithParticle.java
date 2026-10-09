@@ -8,7 +8,6 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
@@ -112,7 +111,6 @@ public class ZenithParticle extends TextureSheetParticle {
         float tailDepth = (tx - hx) * (float) this.axis.x + (ty - hy) * (float) this.axis.y + (tz - hz) * (float) this.axis.z;
         int argb = 0xFF000000 | this.color;
         int light = getLightColor(partialTick);
-        int overlay = OverlayTexture.NO_OVERLAY;
         float u0 = this.sprite.getU0();
         float u1 = this.sprite.getU1();
         float v0 = this.sprite.getV0();
@@ -136,39 +134,37 @@ public class ZenithParticle extends TextureSheetParticle {
         for (int i = 0; i < 4; i++) {
             int from = i * 3;
             int to = ((i + 1) & 3) * 3;
-            vertex(buffer, front[from], front[from + 1], front[from + 2], u0, v0, argb, light, overlay);
-            vertex(buffer, front[to], front[to + 1], front[to + 2], u1, v0, argb, light, overlay);
-            vertex(buffer, back[to], back[to + 1], back[to + 2], u1, v1, argb, light, overlay);
-            vertex(buffer, back[from], back[from + 1], back[from + 2], u0, v1, argb, light, overlay);
+            vertex(buffer, front[from], front[from + 1], front[from + 2], u0, v0, argb, light);
+            vertex(buffer, front[to], front[to + 1], front[to + 2], u1, v0, argb, light);
+            vertex(buffer, back[to], back[to + 1], back[to + 2], u1, v1, argb, light);
+            vertex(buffer, back[from], back[from + 1], back[from + 2], u0, v1, argb, light);
         }
-        vertex(buffer, front[0], front[1], front[2], u0, v0, argb, light, overlay);
-        vertex(buffer, front[9], front[10], front[11], u1, v0, argb, light, overlay);
-        vertex(buffer, front[6], front[7], front[8], u1, v1, argb, light, overlay);
-        vertex(buffer, front[3], front[4], front[5], u0, v1, argb, light, overlay);
+        vertex(buffer, front[0], front[1], front[2], u0, v0, argb, light);
+        vertex(buffer, front[9], front[10], front[11], u1, v0, argb, light);
+        vertex(buffer, front[6], front[7], front[8], u1, v1, argb, light);
+        vertex(buffer, front[3], front[4], front[5], u0, v1, argb, light);
         if (tailDepth < -size) {
             for (int i = 0; i < 4; i++) {
                 int from = i * 3;
                 int to = ((i + 1) & 3) * 3;
-                vertex(buffer, back[from], back[from + 1], back[from + 2], u0, v0, argb, light, overlay);
-                vertex(buffer, back[to], back[to + 1], back[to + 2], u1, v0, argb, light, overlay);
-                vertex(buffer, tx, ty, tz, u1, v1, argb, light, overlay);
-                vertex(buffer, tx, ty, tz, u0, v1, argb, light, overlay);
+                vertex(buffer, back[from], back[from + 1], back[from + 2], u0, v0, argb, light);
+                vertex(buffer, back[to], back[to + 1], back[to + 2], u1, v0, argb, light);
+                vertex(buffer, tx, ty, tz, u1, v1, argb, light);
+                vertex(buffer, tx, ty, tz, u0, v1, argb, light);
             }
         } else {
-            vertex(buffer, back[0], back[1], back[2], u0, v0, argb, light, overlay);
-            vertex(buffer, back[3], back[4], back[5], u1, v0, argb, light, overlay);
-            vertex(buffer, back[6], back[7], back[8], u1, v1, argb, light, overlay);
-            vertex(buffer, back[9], back[10], back[11], u0, v1, argb, light, overlay);
+            vertex(buffer, back[0], back[1], back[2], u0, v0, argb, light);
+            vertex(buffer, back[3], back[4], back[5], u1, v0, argb, light);
+            vertex(buffer, back[6], back[7], back[8], u1, v1, argb, light);
+            vertex(buffer, back[9], back[10], back[11], u0, v1, argb, light);
         }
     }
 
-    private static void vertex(VertexConsumer buffer, float x, float y, float z, float u, float v, int argb, int light, int overlay) {
+    private static void vertex(VertexConsumer buffer, float x, float y, float z, float u, float v, int argb, int light) {
         buffer.vertex(x, y, z)
-                .color(argb)
                 .uv(u, v)
-                .overlayCoords(overlay)
+                .color(argb)
                 .uv2(light)
-                .normal(0.0F, 0.0F, 1.0F)
                 .endVertex();
     }
 

@@ -13,9 +13,7 @@ public class ZenithAttachmentEntityRenderRegister {
     }
 
     public static void onClientSetup(PortFMLClientSetupEventPort event) {
-        event.enqueueWork(() -> {
-            AttachmentEntityRenderDispatcher.register(ZenithAttachmentEntityRegister.ZENITH.get(), new ZenithRenderer());
-            AttachmentEntityRenderDispatcher.register(ZenithAttachmentEntityRegister.ZENITH_DECORATION.get(), new ZenithDecorationRenderer());
-        });
+        AttachmentEntityRenderDispatcher.register(ZenithAttachmentEntityRegister.ZENITH.get(), new ZenithRenderer());
+        AttachmentEntityRenderDispatcher.register(ZenithAttachmentEntityRegister.ZENITH_DECORATION.get(), new ZenithDecorationRenderer());
     }
 }

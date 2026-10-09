@@ -2,8 +2,6 @@ package first.zenith.client.attachmentEntityRenderer.projectile;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import first.lyra.Lyra;
-import first.lyra.client.render.LyraRenderTypes;
 import first.lyra.client.render.RenderContext;
 import first.lyra.client.render.trail.RibbonTrailContext;
 import first.lyra.client.render.trail.TrailContext;

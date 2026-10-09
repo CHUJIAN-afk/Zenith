@@ -20,7 +20,7 @@ public class ZenithMod {
         IEventBus eventBus = context.getModEventBus();
         REGISTRIES.register(eventBus, ZenithItemRegister::register);
         ZenithCreativeTabRegister.register();
-        ZenithAttachmentEntityRegister.register();
+        ZenithAttachmentEntityRegister.register(eventBus);
         ZenithSoundRegister.register();
         ZenithAttachmentRegister.register();
         ZenithParticleRegister.register();
@@ -30,7 +30,6 @@ public class ZenithMod {
             ZenithModelRegister.init();
             ZenithAttachmentEntityRenderRegister.init();
             ClientEvent.init();
-            Event.initClient();
         }
     }
 

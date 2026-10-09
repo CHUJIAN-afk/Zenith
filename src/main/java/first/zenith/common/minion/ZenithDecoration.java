@@ -1,12 +1,10 @@
 package first.zenith.common.minion;
 
-import first.lyra.common.attachmentEntity.AttachmentEntityType;
 import first.lyra.common.attachmentEntity.PathNode;
 import first.lyra.common.attachmentEntity.SyncFieldDispatcher;
 import first.lyra.common.minion.Minion;
 import first.lyra.common.minion.MinionSlotType;
 import first.zenith.register.ZenithAttachmentEntityRegister;
-import net.minecraft.core.Holder;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -16,7 +14,7 @@ public class ZenithDecoration extends Minion {
     private ItemStack itemStack = ItemStack.EMPTY;
 
     public ZenithDecoration() {
-        super(ZenithAttachmentEntityRegister.holder(ZenithAttachmentEntityRegister.ZENITH_DECORATION));
+        super(ZenithAttachmentEntityRegister.ZENITH_DECORATION);
         setSlotCost(0);
     }
 

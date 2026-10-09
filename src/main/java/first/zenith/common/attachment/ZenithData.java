@@ -2,7 +2,6 @@ package first.zenith.common.attachment;
 
 import first.lyra.api.LyraHelper;
 import first.lyra.common.attachment.TargetCache;
-import first.lyra.common.attachmentEntity.PathNode;
 import first.lyra.common.sound.Playable;
 import first.lyra.register.LyraAttachmentRegister;
 import first.zenith.common.item.ZenithItem;
