@@ -139,7 +139,7 @@ public class Zenith extends AttachmentEntity implements IEntityCollision<Zenith>
     }
 
     public float getProgress(float partialTick) {
-        float progress = (tickCount + partialTick) / 9;
+        float progress = (tickCount + partialTick) / 10;
         progress = ZENITH_EASING_CURVE.apply(progress);
         return progress;
     }
